@@ -189,12 +189,14 @@ module.exports = View.extend({
         }
         
         // Actually set the matching options to "selected"
-        this.select.options.forEach(function(v,i,a) {
-            v.selected = false;
-            if (lookupValues.indexOf(v.value) !== -1) {
-                v.selected = true;
+        for (var i in this.select.options) { 
+            if (Object.prototype.toString.call(this.select.options[i]) === '[object HTMLOptionElement]') { 
+                this.select.options[i].selected = false;
+                if (lookupValues.indexOf(this.select.options[i].value) !== -1) {
+                    this.select.options[i].selected = true;
+                }
             }
-        });
+        }
         
         return this;
     },
