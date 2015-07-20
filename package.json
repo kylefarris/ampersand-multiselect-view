@@ -1,0 +1,131 @@
+{
+  "name": "ampersand-multiselect-view",
+  "description": "A view module for intelligently rendering and validating multiple selectbox input. Works well with ampersand-form-view. Based off of ampersand-select-view.",
+  "version": "4.3.0",
+  "author": {   
+    "name": "Philip Roberts",
+    "email": "phil@andyet.net"
+  },
+  "contributors": [
+    {
+        "name": "Philip Roberts",
+        "email": "phil@andyet.net"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/AmpersandJS/ampersand-select-view/issues"
+  },
+  "dependencies": {
+    "ampersand-dom": "^1.1.0",
+    "ampersand-version": "^1.0.1",
+    "ampersand-view": "^7.3.0",
+    "domify": "^1.2.2",
+    "matches-selector": "^1.0.0"
+  },
+  "devDependencies": {
+    "ampersand-collection": "^1.3.1",
+    "ampersand-form-view": "^3.1.0",
+    "ampersand-state": "^4.4.5",
+    "ampersand-view-conventions": "^1.1.1",
+    "browserify": "^9.0.3",
+    "function-bind": "^1.0.2",
+    "jshint": "^2.5.1",
+    "phantomjs": "^1.9.7-15",
+    "precommit-hook": "^1.0.2",
+    "run-browser": "^2.0.2",
+    "tap-spec": "^2.2.1",
+    "tape": "^3.5.0",
+    "tape-run": "^0.3.0",
+    "tape-suite": "^0.2.0",
+    "testem": "^0.7.6",
+    "zuul": "^1.19.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/AmpersandJS/ampersand-select-view",
+  "keywords": [
+    "ampersand",
+    "form",
+    "view",
+    "select"
+  ],
+  "license": "MIT",
+  "main": "ampersand-select-view.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmpersandJS/ampersand-select-view.git"
+  },
+  "scripts": {
+    "test": "zuul --phantom -- test/index.js",
+    "test-ci": "zuul -- test/index.js",
+    "start": "run-browser test/*",
+    "demo": "beefy demo/demo.js:demo.js --cwd demo",
+    "preversion": "git checkout master && git pull && npm ls",
+    "publish-patch": "npm run preversion && npm version patch && git push origin master --tags && npm publish",
+    "publish-minor": "npm run preversion && npm version minor && git push origin master --tags && npm publish",
+    "publish-major": "npm run preversion && npm version major && git push origin master --tags && npm publish"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/8..latest",
+      "firefox/17..latest",
+      "firefox/nightly",
+      "chrome/22..latest",
+      "chrome/canary",
+      "opera/12..latest",
+      "opera/next",
+      "safari/5.1..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
+    ]
+  },
+  "browserify": {
+    "transform": [
+      "ampersand-version"
+    ]
+  },
+  "gitHead": "45c8b32feeb92f176004fa7f7b66197882d20356",
+  "_id": "ampersand-select-view@4.3.0",
+  "_shasum": "297e5853490db29c4b579c052e0f5e7b0e8f4eba",
+  "_from": "ampersand-select-view@4.3.0",
+  "_npmVersion": "2.7.4",
+  "_nodeVersion": "0.12.2",
+  "_npmUser": {
+    "name": "cdaringe",
+    "email": "cdaringe@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "henrikjoreteg",
+      "email": "henrik@andyet.net"
+    },
+    {
+      "name": "latentflip",
+      "email": "phil@latentflip.com"
+    },
+    {
+      "name": "lukekarrys",
+      "email": "luke@lukekarrys.com"
+    },
+    {
+      "name": "gar",
+      "email": "gar+npm@danger.computer"
+    },
+    {
+      "name": "andyet",
+      "email": "ops@andyet.net"
+    },
+    {
+      "name": "cdaringe",
+      "email": "cdaringe@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "297e5853490db29c4b579c052e0f5e7b0e8f4eba",
+    "tarball": "http://registry.npmjs.org/ampersand-select-view/-/ampersand-select-view-4.3.0.tgz"
+  },
+  "_resolved": "https://registry.npmjs.org/ampersand-select-view/-/ampersand-select-view-4.3.0.tgz"
+}
