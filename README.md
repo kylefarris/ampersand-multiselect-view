@@ -1,4 +1,4 @@
-# ampersand-select-view
+# ampersand-multiselect-view
 
 Lead Maintainer: [Kyle Farris (@kylefarris)](https://github.com/kylefarris)
 

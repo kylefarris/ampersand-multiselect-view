@@ -17,7 +17,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/AmpersandJS/ampersand-select-view/issues"
+    "url": "https://github.com/kylefarris/ampersand-multiselect-view/issues"
   },
   "dependencies": {
     "ampersand-dom": "^1.1.0",
@@ -47,18 +47,19 @@
   "directories": {
     "test": "test"
   },
-  "homepage": "https://github.com/AmpersandJS/ampersand-select-view",
+  "homepage": "https://github.com/kylefarris/ampersand-multiselect-view",
   "keywords": [
     "ampersand",
     "form",
     "view",
-    "select"
+    "select",
+    "multiple"
   ],
   "license": "MIT",
-  "main": "ampersand-select-view.js",
+  "main": "ampersand-multiselect-view.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AmpersandJS/ampersand-select-view.git"
+    "url": "https://github.com/kylefarris/ampersand-multiselect-view.git"
   },
   "scripts": {
     "test": "zuul --phantom -- test/index.js",
@@ -91,45 +92,4 @@
       "ampersand-version"
     ]
   },
-  "gitHead": "45c8b32feeb92f176004fa7f7b66197882d20356",
-  "_id": "ampersand-select-view@4.3.0",
-  "_shasum": "297e5853490db29c4b579c052e0f5e7b0e8f4eba",
-  "_from": "ampersand-select-view@4.3.0",
-  "_npmVersion": "2.7.4",
-  "_nodeVersion": "0.12.2",
-  "_npmUser": {
-    "name": "cdaringe",
-    "email": "cdaringe@gmail.com"
-  },
-  "maintainers": [
-    {
-      "name": "henrikjoreteg",
-      "email": "henrik@andyet.net"
-    },
-    {
-      "name": "latentflip",
-      "email": "phil@latentflip.com"
-    },
-    {
-      "name": "lukekarrys",
-      "email": "luke@lukekarrys.com"
-    },
-    {
-      "name": "gar",
-      "email": "gar+npm@danger.computer"
-    },
-    {
-      "name": "andyet",
-      "email": "ops@andyet.net"
-    },
-    {
-      "name": "cdaringe",
-      "email": "cdaringe@gmail.com"
-    }
-  ],
-  "dist": {
-    "shasum": "297e5853490db29c4b579c052e0f5e7b0e8f4eba",
-    "tarball": "http://registry.npmjs.org/ampersand-select-view/-/ampersand-select-view-4.3.0.tgz"
-  },
-  "_resolved": "https://registry.npmjs.org/ampersand-select-view/-/ampersand-select-view-4.3.0.tgz"
 }
