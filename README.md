@@ -19,15 +19,15 @@ Part of the [Ampersand.js toolkit](http://ampersandjs.com) for building clientsi
 ## API Reference
 
 ### clear() - [Function] - returns `this`
-Alias to calling `setValue(null, true)`.  Sets the selected option to either the [unselectedText](#general-options) option or a user defined option whose value is `null`.  *Be mindful* that if no unselectedText or `null` option exists, the view will error.
+Alias to calling `setValue(null, true)`.  Unselects all options.
 
 ### reset() - [Function] - returns `this`
 Sets the selected option and view value to the original option value provided during construction.
 
 ### setValue([value, skipValidationMessage]) - [Function] - returns `this`
-Sets the selected option to that which matches the provided value.  Updates the view's `.value` accordingly.  SelectView will error if no matching option exists.  `null`, `undefined`, and `''` values will preferentially select [unselectedText](#general-options) if defined.
+Sets the selected options to those which match the provided value(s).  Updates the view's `.values` accordingly.  MultiSelectView will error if no matching options exist.
 
-### constructor - [Function] `new SelectView([options])`
+### constructor - [Function] `new MultiSelectView([options])`
 #### options
 ##### general options
 - `autoRender`: [default: `false`] generally, we leave rendering of this FieldView to its controlling form
@@ -60,7 +60,7 @@ When the collection changes, the view will try and maintain its currently `.valu
 You may override the default template by providing your own template string to the [constructor](#constructor---function-new-selectviewoptions) options hash.  Technically, all you must provided is a `<select>` element.  However, your template may include the following under a single root element:
 
 1. An element with a `data-hook="label"` to annotate your select control
-1. An `<select>` element to hold your `options`
+1. An `<select>` element to hold your `options` with the `multiple` or `multiple="multiple"` attribute.
 1. An element with a `data-hook="message-container"` to contain validation messages
 1. An element with a `data-hook="message-text"` nested beneath the `data-hook="message-container"` element to show validation messages
 
