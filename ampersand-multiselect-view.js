@@ -129,7 +129,6 @@ module.exports = View.extend({
     },
 
     onChange: function () {
-        
         this.setValues(this.getSelectedValues().map(function(v) {
             if (this.options.isCollection && this.yieldModels) {
                 return this.getModelForId(v);
@@ -183,13 +182,13 @@ module.exports = View.extend({
         // Unselect all options (we'll re-select the matching options later if neccessary)
         this.getAllOptions().forEach(function(v,i,a) {
            this.select.options[i].selected = false;
-        });
+        }.bind(this));
         
         if (lookupValues === null || lookupValues === undefined || lookupValues === '')
             return this;
         
         // Make sure values is an array or collection
-        if (!lookupValues.isCollection && Object.prototype.toString.call(this.select.options[i]) !== '[object Array]') lookupValues = [lookupValues];
+        if (!lookupValues.isCollection && Object.prototype.toString.call(lookupValues) !== '[object Array]') lookupValues = [lookupValues];
 
         // Remove any options that don't exist in the collection (if collection is provided for options)
         // and get just the idAttribute values
