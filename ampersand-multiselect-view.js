@@ -69,7 +69,7 @@ module.exports = View.extend({
 
         this.onChange = this.onChange.bind(this);
 
-        this.startingValues = this.setValues(opts.values, this.eagerValidate ? false : true, true);
+        this.startingValues = this.setValue(opts.values, this.eagerValidate ? false : true, true);
 
         if (opts.beforeSubmit) this.beforeSubmit = opts.beforeSubmit;
         if (opts.autoRender) this.autoRender = opts.autoRender;
@@ -129,7 +129,7 @@ module.exports = View.extend({
     },
 
     onChange: function () {
-        this.setValues(this.getSelectedValues().map(function(v) {
+        this.setValue(this.getSelectedValues().map(function(v) {
             if (this.options.isCollection && this.yieldModels) {
                 return this.getModelForId(v);
             } else {
@@ -220,7 +220,7 @@ module.exports = View.extend({
      * @return {MultiSelectView} this
      */
     clear: function() {
-        this.setValues([], true);
+        this.setValue([], true);
         return this;
     },
 
@@ -230,10 +230,10 @@ module.exports = View.extend({
      * @return {MultiSelectView} this
      */
     reset: function() {
-        return this.setValues(this.startingValuea, true);
+        return this.setValue(this.startingValuea, true);
     },
 
-    setValues: function (values, skipValidationMessage, init) {
+    setValue: function (values, skipValidationMessage, init) {
         var option, model, nullValid;
 
         if (values === null || values === undefined || values === '' || values === []) {
