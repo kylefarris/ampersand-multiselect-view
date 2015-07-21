@@ -115,19 +115,28 @@ module.exports = View.extend({
         this.validate(this.eagerValidate ? false : true, true);
         return this;
     },
-
+    
+    getAllOptions: function() {
+        return Array.prototype.slice.call(this.select.querySelectorAll('option'),0);
+    },
+    
+    getSelectedValues: function() {
+        return Array.prototype.slice.call(this.select.querySelectorAll('option:checked'),0).map(function(v) { return v.value; });
+    },
+    
+    getSelectedIndices: function() {
+        return Array.prototype.slice.call(this.select.querySelectorAll('option:checked'),0).map(function(v) { return v.index; });
+    },
 
     onChange: function () {
-        var values = [];
-        this.selectedIndices.forEach(function(v,i,a) {
-            if (this.options.isCollection && this.yieldModels) {
-                values.push(this.getModelForId(this.select.options[v].value));
-            } else {
-                values.push(this.select.options[v].value);
-            }
-        }.bind(this));
         
-        this.setValues(values);
+        this.setValues(this.getSelectedValues().map(function(v) {
+            if (this.options.isCollection && this.yieldModels) {
+                return this.getModelForId(v);
+            } else {
+                return v;
+            }
+        }.bind(this)));
     },
 
     /**
@@ -171,32 +180,32 @@ module.exports = View.extend({
     updateSelectedOptions: function () {
         var lookupValues = this.values;
         
-        if (lookupValues === null || lookupValues === undefined || lookupValues === '') {
-            if (!this.options.length && this.values === null) {
-                this.select.options.forEach(function(v,i,a) { v.selected = false; });
-                return this;
-            }
-        }
+        // Unselect all options (we'll re-select the matching options later if neccessary)
+        this.getAllOptions().forEach(function(v,i,a) {
+           this.select.options[i].selected = false;
+        });
+        
+        if (lookupValues === null || lookupValues === undefined || lookupValues === '')
+            return this;
         
         // Make sure values is an array or collection
-        if (!lookupValues.isCollection && typeof lookupValues !== 'array') lookupValues = [lookupValues];
+        if (!lookupValues.isCollection && Object.prototype.toString.call(this.select.options[i]) !== '[object Array]') lookupValues = [lookupValues];
 
         // Remove any options that don't exist in the collection (if collection is provided for options)
+        // and get just the idAttribute values
         if (this.options.isCollection && this.yieldModels) {
             lookupValues = lookupValues.filter(function(v) {
                 return (v.hasOwnProperty(this.idAttribute) ? false : true);
+            }.bind(this)).map(function(v) {
+                return lookupValue[this.idAttribute];
             }.bind(this));
         }
         
         // Actually set the matching options to "selected"
-        for (var i in this.select.options) { 
-            if (Object.prototype.toString.call(this.select.options[i]) === '[object HTMLOptionElement]') { 
-                this.select.options[i].selected = false;
-                if (lookupValues.indexOf(this.select.options[i].value) !== -1) {
-                    this.select.options[i].selected = true;
-                }
-            }
-        }
+        lookupValues.forEach(function(v) {
+            var option = this.select.querySelector('[value="'+v+'"]');
+            option.selected = true;
+        }.bind(this));
         
         return this;
     },
@@ -231,14 +240,14 @@ module.exports = View.extend({
         if (values === null || values === undefined || values === '' || values === []) {
             this.values = [];
         } else {
-            // Only keep values that actually exit in the option set
-            var good_values = values.filter(function(v) {
-                return (this.getOptionByValue(value) === false ? false : true);
-            });
+            // Only keep values that actually exist in the option set
+            this.values = values.filter(function(v) {
+                return (this.getOptionByValue(v) === false ? false : true);
+            }.bind(this));
         }
         
         this.validate(skipValidationMessage);
-        if (this.select) this.updateSelectedOption();
+        if (this.select) this.updateSelectedOptions();
         if (this.parent && typeof this.parent.update === 'function') this.parent.update(this);
         return this.values;
     },
@@ -252,7 +261,7 @@ module.exports = View.extend({
             return this.valid;
         }
 
-        if (this.required && !this.value && this.value !== 0) {
+        if (this.required && (!this.values || this.values === [])) {
             this.valid = false;
             if (this.select) this.toggleMessage(skipValidationMessage, this.requiredMessage);
         } else {
