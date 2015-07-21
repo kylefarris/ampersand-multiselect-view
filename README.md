@@ -25,7 +25,7 @@ Alias to calling `setValue(null, true)`.  Unselects all options.
 Sets the selected option and view value to the original option value provided during construction.
 
 ### setValue([value, skipValidationMessage]) - [Function] - returns `this`
-Sets the selected options to those which match the provided value(s).  Updates the view's `.values` accordingly.  MultiSelectView will error if no matching options exist.
+Sets the selected options to those which match the provided value(s).  Updates the view's `.value` accordingly.  MultiSelectView will error if no matching options exist.
 
 ### constructor - [Function] `new MultiSelectView([options])`
 #### options
@@ -38,7 +38,7 @@ Sets the selected options to those which match the provided value(s).  Updates t
 - `[template]`: a custom template to use (see 'template' section, below, for more)
 - `[required]`: [default: `false`] field required
 - `[eagerValidate]`: [default: `false`] validate and show messages immediately.  Note: field will be validated immediately to provide a true `.valid` value, but messages by default are hidden.
-- `[values]`: initial value(s) (array) for the `<select>`.  `values` **must** be a members of the `options` set.
+- `[value]`: initial value(s) (array) for the `<select>`.  `value` **must** be a members of the `options` set.
 
 ##### label & validation options
 - `[label]`: [default: `name` value] text to annotate your select control
@@ -108,7 +108,7 @@ module.exports = FormView.extend({
                 // you can pass in a collection here too
                 options: collection,
                 // and pick some item from the collection as the selected ones
-                values: [collection1.at(2), collection1.at(5)],
+                value: [collection1.at(2), collection1.at(5)],
                 // here you specify which attribute on the objects in the collection
                 // to use for the value returned.
                 idAttribute: 'id',
@@ -127,7 +127,7 @@ module.exports = FormView.extend({
 ```
 ## gotchas
 
-* Numeric option values are generally stringified by the browser.  Be mindful doing comparisons.  You'll generally desire to inspect `selectView.values` (the value of your selected options' input) over `selectView.select.values` (the value returned from the browser).
+* Numeric option values are generally stringified by the browser.  Be mindful doing comparisons.  You'll generally desire to inspect `selectView.value` (the value of your selected options' input) over `selectView.select.value` (the value returned from the browser).
     * Additionally, do **not** use option sets containing values that `==` one another.  E.g., do not use options whose values are "2" (string) and 2 (number).  Browsers cannot distinguish between them in the select control context, thus nor can ampersand-select-view.
 * `null`, `undefined`, or `''` option values are not considered `valid` when the field is required.  This does not apply when options are from a collection and `yieldModel` is enabled.
 
