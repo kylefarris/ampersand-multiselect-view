@@ -54,7 +54,7 @@ module.exports = View.extend({
         }
         this.parent = opts.parent || this.parent;
         this.template = opts.template || defaultTemplate;
-        this.startingValues = opts.values;
+        this.startingValues = opts.value;
         this.yieldModels = (opts.yieldModels === false) ? false : true;
 
         this.eagerValidate = opts.eagerValidate;
@@ -177,7 +177,7 @@ module.exports = View.extend({
      * @throws {Error} If no option exists for this.value
      */
     updateSelectedOptions: function () {
-        var lookupValues = this.values;
+        var lookupValues = this.value;
         
         // Unselect all options (we'll re-select the matching options later if neccessary)
         this.getAllOptions().forEach(function(v,i,a) {
@@ -237,10 +237,10 @@ module.exports = View.extend({
         var option, model, nullValid;
 
         if (values === null || values === undefined || values === '' || values === []) {
-            this.values = [];
+            this.value = [];
         } else {
             // Only keep values that actually exist in the option set
-            this.values = values.filter(function(v) {
+            this.value = values.filter(function(v) {
                 return (this.getOptionByValue(v) === false ? false : true);
             }.bind(this));
         }
@@ -248,7 +248,7 @@ module.exports = View.extend({
         this.validate(skipValidationMessage);
         if (this.select) this.updateSelectedOptions();
         if (this.parent && typeof this.parent.update === 'function') this.parent.update(this);
-        return this.values;
+        return this.value;
     },
 
     validate: function (skipValidationMessage) {
@@ -260,7 +260,7 @@ module.exports = View.extend({
             return this.valid;
         }
 
-        if (this.required && (!this.values || this.values === [])) {
+        if (this.required && (!this.value || this.value === [])) {
             this.valid = false;
             if (this.select) this.toggleMessage(skipValidationMessage, this.requiredMessage);
         } else {
