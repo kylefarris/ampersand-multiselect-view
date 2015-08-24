@@ -1,7 +1,7 @@
 var suite = require('tape-suite');
 var viewConventions = require('ampersand-view-conventions');
 var FormView = require('ampersand-form-view');
-var SelectView = require('../ampersand-select-view');
+var MultiSelectView = require('../ampersand-multiselect-view');
 var AmpersandState = require('ampersand-state');
 var AmpersandCollection = require('ampersand-collection');
 var dom = require('ampersand-dom');
@@ -31,7 +31,9 @@ var VolatileCollection = AmpersandCollection.extend({
     model: VolatileModel
 });
 
-if (!Function.prototype.bind) Function.prototype.bind = require('function-bind');
+if (!Function.prototype.bind) {
+    Function.prototype.bind = require('function-bind');
+}
 
 var fieldOptions = {
     name: 'word',
@@ -41,8 +43,8 @@ var view;
 var arr, arrNum;
 var coll;
 
-viewConventions.view(suite.tape, SelectView, fieldOptions);
-viewConventions.formField(suite.tape, SelectView, fieldOptions, 'foo');
+viewConventions.view(suite.tape, MultiSelectView, fieldOptions);
+viewConventions.formField(suite.tape, MultiSelectView, fieldOptions, 'foo');
 
 //Wrap sync tests
 var sync = function (cb) {
@@ -56,20 +58,20 @@ var sync = function (cb) {
 suite('Setup', function (s) {
     s.beforeEach(function () {
         fieldOptions = {
-            name: 'word',
-            label: 'Choose a word',
+            name: 'words',
+            label: 'Choose some words',
             options: ['foo', 'bar', 'baz'],
             autoRender: true
         };
-        view = new SelectView(fieldOptions);
+        view = new MultiSelectView(fieldOptions);
     });
 
     s.test('autorenders on init', sync(function (t) {
-        t.ok(view.el.querySelector('select'));
+        t.ok(view.el.querySelector('select[multiple="multiple"]'));
     }));
 
     s.test('empty option-set', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             name: 'num',
             options: [],
             required: false,
@@ -77,7 +79,7 @@ suite('Setup', function (s) {
 
         t.ok(view.valid, 'empty, non-required option set valid');
 
-        view = new SelectView({
+        view = new MultiSelectView({
             name: 'num',
             options: [],
             required: true,
@@ -88,23 +90,23 @@ suite('Setup', function (s) {
 
     s.test('renders label text', sync(function (t) {
         var labelText = view.el.querySelector('[data-hook~=label]').textContent;
-        t.equal(labelText, 'Choose a word');
+        t.equal(labelText, 'Choose some words');
     }));
 
     s.test('label text falls back to name', sync(function (t) {
-        view = new SelectView({
-            name: 'word',
+        view = new MultiSelectView({
+            name: 'words',
             options: [],
             autoRender: true
         });
         var labelText = view.el.querySelector('[data-hook~=label]').textContent;
-        t.equal(labelText, 'word');
+        t.equal(labelText, 'words');
     }));
 
-    s.test('works with just <select></select>', sync(function (t) {
-        view = new SelectView({
-            name: 'word',
-            template: '<select></select>',
+    s.test('works with just <select multiple></select>', sync(function (t) {
+        view = new MultiSelectView({
+            name: 'words',
+            template: '<select multiple></select>',
             options: ['foo', 'bar', 'baz']
         });
         view.render();
@@ -112,47 +114,44 @@ suite('Setup', function (s) {
     }));
 
     s.test('set valid name on select input', sync(function (t) {
-        view = new SelectView({
-            name: 'word',
+        view = new MultiSelectView({
+            name: 'words',
             options: [],
             autoRender: true
         });
         var selectName = view.el.querySelector('select').getAttribute('name');
-        t.equal(selectName, 'word');
+        t.equal(selectName, 'words');
     }));
 
     s.test('message container', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'num',
             options: fieldOptions.options,
             eagerValidate: false,
-            required: true,
-            unselectedText: 'default'
+            required: true
         });
 
         t.ok(view.el.querySelector('[data-hook~=message-container]').style.display === 'none', 'validation message should be hidden if eagerValidate is false');
 
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'num',
             options: fieldOptions.options,
             eagerValidate: true,
-            required: true,
-            unselectedText: 'default'
+            required: true
         });
 
         t.ok(view.el.querySelector('[data-hook~=message-container]').style.display !== 'none', 'validation message should be displayed if eagerValidate is true');
     }));
 
     s.test('eagerValidation', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'num',
             options: fieldOptions.options,
             eagerValidate: true,
-            required: true,
-            unselectedText: 'default'
+            required: true
         });
 
         t.ok(dom.hasClass(view.el, view.invalidClass), 'validation message should be present on el with eagerValidate');
@@ -165,11 +164,11 @@ suite('Utility Methods', function (s) {
     var view;
 
     s.test('clear', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
-            value: 'two'
+            value: ['two']
         });
 
         var select = view.el.querySelector('select');
@@ -184,7 +183,7 @@ suite('Utility Methods', function (s) {
     }));
 
     s.test('clear on view with `unselectedText`', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -203,7 +202,7 @@ suite('Utility Methods', function (s) {
     }));
 
     s.test('clear on `required` view`', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -225,7 +224,7 @@ suite('Utility Methods', function (s) {
     }));
 
     s.test('clear on `required` view with `unselectedText`', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -245,7 +244,7 @@ suite('Utility Methods', function (s) {
     }));
 
     s.test('reset on view with initial value', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: [0, 1, 2],
@@ -265,7 +264,7 @@ suite('Utility Methods', function (s) {
     }));
 
     s.test('reset on view with no initial value', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr
@@ -283,7 +282,7 @@ suite('Utility Methods', function (s) {
 
     s.test('reset on view where initial value missing', sync(function (t) {
         var ops = [0, 1, 2];
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: ops,
@@ -301,7 +300,7 @@ suite('Utility Methods', function (s) {
     s.test('beforeSubmit', sync(function (t) {
         var called, formView;
         var formEl = document.createElement('form');
-        view = new SelectView({
+        view = new MultiSelectView({
             name: 'word',
             options: arr,
             required: true,
@@ -329,7 +328,7 @@ suite('Options array with number items', function (s) {
     });
 
     s.test('renders the number options into the select', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'num',
             options: arr
@@ -358,7 +357,7 @@ suite('Options array with string items', function (s) {
     });
 
     s.test('renders the options into the select (array)', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr
@@ -379,7 +378,7 @@ suite('Options array with string items', function (s) {
     }));
 
     s.test('renders the empty item', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -398,7 +397,7 @@ suite('Options array with string items', function (s) {
     }));
 
     s.test('selects the right item (options: [\'valAndText\'])', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -425,7 +424,7 @@ suite('Options array with string items', function (s) {
     }));
 
     s.test('options are enabled', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -448,7 +447,7 @@ suite('Options array with array items', function (s) {
     });
 
     s.test('renders the arr-num options into the select', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'num',
             options: arrNum
@@ -470,7 +469,7 @@ suite('Options array with array items', function (s) {
     }));
 
     s.test('renders the arr-str options into the select', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr
@@ -491,7 +490,7 @@ suite('Options array with array items', function (s) {
     }));
 
     s.test('renders the empty item', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -510,7 +509,7 @@ suite('Options array with array items', function (s) {
     }));
 
     s.test('selects the right item (options:  [[\'val\', \'text\']])', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr,
@@ -537,7 +536,7 @@ suite('Options array with array items', function (s) {
     }));
 
     s.test('renders a disabled item if a third value is passed which is truthy', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: arr
@@ -563,7 +562,7 @@ suite('With ampersand collection', function (s) {
     });
 
     s.test('renders the options into the select (collection)', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -594,7 +593,7 @@ suite('With ampersand collection', function (s) {
             { id: 3, someOtherKey: 'baz', title: 'Option three' }
         ]);
 
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -638,7 +637,7 @@ suite('With ampersand collection', function (s) {
     }));
 
     s.test('renders the options into the select with different id attribute (collection)', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -657,7 +656,7 @@ suite('With ampersand collection', function (s) {
     }));
 
     s.test('renders the empty item', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -684,7 +683,7 @@ suite('With ampersand collection', function (s) {
             { id: 2, someOtherKey: 'baz', title: 'Option two' },
         ]);
 
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'testNullId',
             options: coll,
@@ -707,7 +706,7 @@ suite('With ampersand collection', function (s) {
     }));
 
     s.test('selects the right item by id/model (options: collection)', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -741,7 +740,7 @@ suite('With ampersand collection', function (s) {
     }));
 
     s.test('selects the right item by id/model (options: collection), with yieldModel: false', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -790,7 +789,7 @@ suite('With ampersand collection', function (s) {
             { id: 4, someOtherKey: 'baz', title: 'Option four', disabled: true  }
         ]);
 
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'word',
             options: coll,
@@ -815,7 +814,7 @@ suite('With ampersand collection', function (s) {
         var el = document.createElement('div');
         parent.appendChild(el);
 
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             el: el,
             name: 'num',
@@ -828,7 +827,7 @@ suite('With ampersand collection', function (s) {
     }));
 
     s.test('does not fail when el has no parent and remove is invoked', sync(function (t) {
-        view = new SelectView({
+        view = new MultiSelectView({
             autoRender: true,
             name: 'num',
             options: arr

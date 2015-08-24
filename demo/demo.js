@@ -55,19 +55,14 @@ var BaseView = FormView.extend({
                 name: 'one.3',
                 parent: this,
                 options: ['a', 'b', 'c'],
-                value: 'c',
+                value: ['c'],
             }),
 
-            new MultiSelectView({
-                name: 'two.1',
-                parent: this,
-                options: [ ['a', 'Option A'], ['b', 'Option B'], ['c', 'Option C'] ],
-            }),
             new MultiSelectView({
                 name: 'two.2',
                 parent: this,
                 options: [ ['a', 'Option A'], ['b', 'Option B'], ['c', 'Option C'] ],
-                value: 'b',
+                value: ['b'],
             }),
 
             new MultiSelectView({
@@ -85,7 +80,7 @@ var BaseView = FormView.extend({
                 name: 'three.3',
                 parent: this,
                 options: collection1,
-                value: collection1.at(2),
+                value: [collection1.at(2)],
                 idAttribute: 'id',
                 textAttribute: 'title',
                 yieldModel: false
