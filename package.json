@@ -1,19 +1,19 @@
 {
   "name": "ampersand-multiselect-view",
   "description": "A view module for intelligently rendering and validating multiple selectbox input. Works well with ampersand-form-view. Based off of ampersand-select-view.",
-  "version": "0.0.1",
-  "author": {   
+  "version": "0.0.2",
+  "author": {
     "name": "Kyle Farris",
     "email": "kylefarris@gmail.com"
   },
   "contributors": [
     {
-        "name": "Philip Roberts",
-        "email": "phil@andyet.net"
+      "name": "Philip Roberts",
+      "email": "phil@andyet.net"
     },
     {
-        "name": "Christopher Dieringer",
-        "url": "https://github.com/cdaringe"
+      "name": "Christopher Dieringer",
+      "url": "https://github.com/cdaringe"
     }
   ],
   "bugs": {
