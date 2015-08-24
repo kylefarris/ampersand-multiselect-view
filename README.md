@@ -125,15 +125,7 @@ module.exports = FormView.extend({
 });
 
 ```
-## gotchas
-
-* Numeric option values are generally stringified by the browser.  Be mindful doing comparisons.  You'll generally desire to inspect `selectView.value` (the value of your selected options' input) over `selectView.select.value` (the value returned from the browser).
-    * Additionally, do **not** use option sets containing values that `==` one another.  E.g., do not use options whose values are "2" (string) and 2 (number).  Browsers cannot distinguish between them in the select control context, thus nor can ampersand-select-view.
-* `null`, `undefined`, or `''` option values are not considered `valid` when the field is required.  This does not apply when options are from a collection and `yieldModel` is enabled.
-
 ## browser support
-
-[![testling badge](https://ci.testling.com/AmpersandJS/ampersand-select-view.png)](https://ci.testling.com/AmpersandJS/ampersand-select-view)
 
 ## changelog
 

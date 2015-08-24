@@ -100,7 +100,7 @@ module.exports = View.extend({
         if (!this.select) throw new Error('no select found in template');
         if (matches(this.el, 'select')) this.select = this.el;
         if (this.select) this.select.setAttribute('name', this.name);
-        
+
         this.select.selectedIndices = [];
 
         this.bindDOMEvents();
@@ -115,15 +115,15 @@ module.exports = View.extend({
         this.validate(this.eagerValidate ? false : true, true);
         return this;
     },
-    
+
     getAllOptions: function() {
         return Array.prototype.slice.call(this.select.querySelectorAll('option'),0);
     },
-    
+
     getSelectedValues: function() {
         return Array.prototype.slice.call(this.select.querySelectorAll('option:checked'),0).map(function(v) { return v.value; });
     },
-    
+
     getSelectedIndices: function() {
         return Array.prototype.slice.call(this.select.querySelectorAll('option:checked'),0).map(function(v) { return v.index; });
     },
@@ -178,15 +178,15 @@ module.exports = View.extend({
      */
     updateSelectedOptions: function () {
         var lookupValues = this.value;
-        
+
         // Unselect all options (we'll re-select the matching options later if neccessary)
         this.getAllOptions().forEach(function(v,i,a) {
            this.select.options[i].selected = false;
         }.bind(this));
-        
+
         if (lookupValues === null || lookupValues === undefined || lookupValues === '')
             return this;
-        
+
         // Make sure values is an array or collection
         if (!lookupValues.isCollection && Object.prototype.toString.call(lookupValues) !== '[object Array]') lookupValues = [lookupValues];
 
@@ -199,13 +199,13 @@ module.exports = View.extend({
                 return lookupValue[this.idAttribute];
             }.bind(this));
         }
-        
+
         // Actually set the matching options to "selected"
         lookupValues.forEach(function(v) {
             var option = this.select.querySelector('[value="'+v+'"]');
             option.selected = true;
         }.bind(this));
-        
+
         return this;
     },
 
@@ -244,7 +244,7 @@ module.exports = View.extend({
                 return (this.getOptionByValue(v) === false ? false : true);
             }.bind(this));
         }
-        
+
         this.validate(skipValidationMessage);
         if (this.select) this.updateSelectedOptions();
         if (this.parent && typeof this.parent.update === 'function') this.parent.update(this);
@@ -286,9 +286,15 @@ module.exports = View.extend({
         var model;
         if (this.options.isCollection) {
             // find value in collection, error if no model found
-            if (this.options.indexOf(value) === -1) model = this.getModelForId(value);
-            else model = value;
-            if (!model) throw new Error('model or model idAttribute not found in options collection');
+            if (this.options.indexOf(value) === -1) {
+                model = this.getModelForId(value);
+            } else {
+                model = value;
+            }
+            if (!model) {
+                console.error('model or model idAttribute not found in options collection');
+                return false;
+            }
             return this.yieldModel ? model : model[this.idAttribute];
         } else if (Array.isArray(this.options)) {
             // find value value in options array
