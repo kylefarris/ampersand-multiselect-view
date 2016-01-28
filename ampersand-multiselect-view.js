@@ -75,7 +75,7 @@ module.exports = View.extend({
 
         this.onChange = this.onChange.bind(this);
 
-        this.startingValues = this.setValue(opts.values, this.eagerValidate ? false : true, true);
+        this.startingValues = this.setValue(opts.value, this.eagerValidate ? false : true, true);
 
         if (opts.beforeSubmit) {
             this.beforeSubmit = opts.beforeSubmit;
