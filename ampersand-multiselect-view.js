@@ -222,7 +222,7 @@ module.exports = View.extend({
             lookupValues = lookupValues.filter(function(v) {
                 return (v.hasOwnProperty(this.idAttribute) ? false : true);
             }.bind(this)).map(function(v) {
-                return lookupValues[this.idAttribute];
+                return v[this.idAttribute];
             }.bind(this));
         }
 
