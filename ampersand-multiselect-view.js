@@ -258,7 +258,7 @@ module.exports = View.extend({
      * @return {MultiSelectView} this
      */
     reset: function() {
-        return this.setValue(this.startingValuea, true);
+        return this.setValue(this.startingValues, true);
     },
 
     setValue: function (values, skipValidationMessage) {
