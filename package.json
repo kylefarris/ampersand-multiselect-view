@@ -20,10 +20,10 @@
     "url": "https://github.com/kylefarris/ampersand-multiselect-view/issues"
   },
   "dependencies": {
-    "ampersand-dom": "^1.1.0",
-    "ampersand-version": "^1.0.1",
-    "ampersand-view": "^7.3.0",
-    "domify": "^1.2.2",
+    "ampersand-dom": "^1.5.0",
+    "ampersand-version": "^1.0.2",
+    "ampersand-view": "^10.0.1",
+    "domify": "^1.4.0",
     "matches-selector": "^1.0.0"
   },
   "devDependencies": {
