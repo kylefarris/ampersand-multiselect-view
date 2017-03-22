@@ -229,7 +229,9 @@ module.exports = View.extend({
         // Actually set the matching options to "selected"
         lookupValues.forEach(function(v) {
             var option = this.select.querySelector('[value="'+v+'"]');
-            option.selected = true;
+            if (option && 'selected' in option) {
+                option.selected = true;
+            }
         }.bind(this));
 
         return this;
