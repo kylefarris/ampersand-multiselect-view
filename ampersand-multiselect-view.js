@@ -333,7 +333,7 @@ module.exports = View.extend({
                 console.error('model or model idAttribute not found in options collection');
                 return false;
             }
-            return this.yieldModel ? model : model[this.idAttribute];
+            return this.yieldModels ? model : model[this.idAttribute];
         } else if (Array.isArray(this.options)) {
             // find value value in options array
             // find option, formatted [['val', 'text'], ...]
