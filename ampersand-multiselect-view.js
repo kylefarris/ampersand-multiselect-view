@@ -267,6 +267,9 @@ module.exports = View.extend({
         if (values === null || values === undefined || values === '' || values === []) {
             this.value = [];
         } else {
+            // Make sure values is an array of values
+            if (!Array.isArray(values)) values = [values];
+
             // Only keep values that actually exist in the option set
             this.value = values.filter(function(v) {
                 return (this.getOptionByValue(v) === false ? false : true);
